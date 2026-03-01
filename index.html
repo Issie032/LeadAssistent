@@ -330,10 +330,11 @@
         <a href="#works" data-i18n="nav_works">Hoe het werkt</a>
         <a href="#pricing" data-i18n="nav_pricing">Pakketten</a>
         <a href="#faq" data-i18n="nav_faq">FAQ</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
       </nav>
 
       <!-- VERVANG # door jouw Calendly link -->
-      <a class="cta" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+      <a class="cta" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
     </div>
   </header>
 
@@ -343,7 +344,7 @@
         <h1 data-i18n="hero_title">LeadAssistent – Elke lead telt</h1>
         <p data-i18n="hero_sub">Automatische reacties op Instagram, Funda en WhatsApp zodat je geen enkele lead meer mist.</p>
         <p><strong data-i18n="hero_benefit">Bespaar tijd en verhoog je omzet direct.</strong></p>
-        <a class="primary" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+        <a class="primary" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
       </div>
 
       <div class="hero-visual" aria-hidden="true">
@@ -393,7 +394,7 @@
         <div class="play"><div class="disabled" title="Video is uitgeschakeld"></div></div>
       </div>
       <div class="smallnote" data-i18n="demo_note">Tip: vervang later de thumbnail of embed je video.</div>
-      <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+      <a class="btn" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
     </div>
   </section>
 
@@ -406,7 +407,7 @@
           <div class="price" data-i18n="p_basic_setup">€1250</div>
           <div class="per" data-i18n="p_basic_month">Maandelijks: €297</div>
           <div class="desc" data-i18n="p_basic_desc">Setup + automatische replies. Jij beheert zelf het systeem.</div>
-          <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+          <a class="btn" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
         </div>
 
         <div class="card premium">
@@ -415,9 +416,34 @@
           <div class="price" data-i18n="p_premium_setup">€1500</div>
           <div class="per" data-i18n="p_premium_month">Maandelijks: €397</div>
           <div class="desc" data-i18n="p_premium_desc">Setup + wij monitoren AI & follow-ups zodat alles strak blijft lopen.</div>
-          <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+          <a class="btn" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <h2 class="title center" data-i18n="contact_title">Contact</h2>
+      <p class="muted center" style="margin-top:-8px" data-i18n="contact_sub">Stuur een bericht en we reageren snel.</p>
+
+      <!-- FORM: VERVANG action URL door jouw Formspree URL -->
+      <form id="contactForm" action="https://formspree.io/f/XXXXXXXX" method="POST" style="max-width:640px;margin:18px auto 0;background:rgba(255,255,255,.72);padding:18px;border-radius:18px;border:1px solid rgba(0,31,63,.08);box-shadow:0 10px 22px rgba(10,35,66,.06)">
+
+        <label for="name" style="display:block;font-weight:900;margin:10px 0 6px" data-i18n="contact_name">Naam</label>
+        <input id="name" name="name" required style="width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(0,31,63,.14)" />
+
+        <label for="email" style="display:block;font-weight:900;margin:12px 0 6px" data-i18n="contact_email">E-mail</label>
+        <input id="email" type="email" name="email" required style="width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(0,31,63,.14)" />
+
+        <label for="message" style="display:block;font-weight:900;margin:12px 0 6px" data-i18n="contact_message">Bericht</label>
+        <textarea id="message" name="message" rows="5" required style="width:100%;padding:12px 12px;border-radius:12px;border:1px solid rgba(0,31,63,.14)"></textarea>
+
+        <button class="btn" type="submit" style="border:0;cursor:pointer" data-i18n="contact_send">Verstuur</button>
+        <p class="muted" style="margin-top:10px;font-size:12.5px" data-i18n="contact_note">We reageren meestal binnen 24 uur.</p>
+      </form>
+
+      <p class="center muted" style="margin-top:14px;font-size:12.5px" data-i18n="contact_alt">Liever direct? Mail: info@leadassistent.nl</p>
     </div>
   </section>
 
@@ -448,7 +474,7 @@
       <div class="inner">
         <h2 data-i18n="final_title">Start vandaag met geen gemiste leads</h2>
         <p data-i18n="final_sub">Boek een live demo en zie hoe LeadAssistent je leads direct omzet naar afspraken.</p>
-        <a class="cta2" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+        <a class="cta2" href="#" onclick="return openCalendly()" data-i18n="cta_demo">Plan je demo</a>
       </div>
     </div>
 
@@ -457,7 +483,17 @@
 
   <script>
     // --- Translations (NL/EN) ---
-    const i18n = {
+    // Calendly popup (vervang URL)
+function openCalendly(){
+  if(!window.Calendly){
+    alert('Calendly is nog aan het laden. Probeer opnieuw.');
+    return false;
+  }
+  Calendly.initPopupWidget({ url: 'https://calendly.com/jouwnaam/demo' });
+  return false;
+}
+
+const i18n = {
       nl: {
         nav_home: "Home",
         nav_works: "Hoe het werkt",
@@ -506,7 +542,17 @@
         final_title: "Start vandaag met geen gemiste leads",
         final_sub: "Boek een live demo en zie hoe LeadAssistent je leads direct omzet naar afspraken.",
         cta_demo: "Plan je demo",
-        footer: "Contact: DM Instagram of mail ons."
+        footer: "Contact: DM Instagram of mail ons.",
+
+        nav_contact: "Contact",
+        contact_title: "Contact",
+        contact_sub: "Stuur een bericht en we reageren snel.",
+        contact_name: "Naam",
+        contact_email: "E-mail",
+        contact_message: "Bericht",
+        contact_send: "Verstuur",
+        contact_note: "We reageren meestal binnen 24 uur.",
+        contact_alt: "Liever direct? Mail: info@leadassistent.nl"
       },
       en: {
         nav_home: "Home",
@@ -556,7 +602,17 @@
         final_title: "Start today with zero missed leads",
         final_sub: "Book a live demo and see how LeadAssistent turns leads into meetings automatically.",
         cta_demo: "Book your demo",
-        footer: "Contact: DM on Instagram or email us."
+        footer: "Contact: DM on Instagram or email us.",
+
+        nav_contact: "Contact",
+        contact_title: "Contact",
+        contact_sub: "Send a message and we'll reply quickly.",
+        contact_name: "Name",
+        contact_email: "Email",
+        contact_message: "Message",
+        contact_send: "Send",
+        contact_note: "We usually reply within 24 hours.",
+        contact_alt: "Prefer email? info@leadassistent.nl"
       }
     };
 
@@ -599,5 +655,10 @@
       applyTranslations(lang);
     })();
   </script>
+
+  <!-- Calendly assets (Popup) -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
 </body>
 </html>
