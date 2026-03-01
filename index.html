@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadAssistent – Elke lead telt</title>
+  <meta name="description" content="Automatische reacties op Instagram, Funda en WhatsApp zodat je geen enkele lead meer mist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --dark:#001F3F;
+      --blue:#1F5EFF;
+      --green:#25b45b;
+      --gold:#FFC107;
+      --bg:#F3F6FB;
+      --card:#ffffff;
+      --text:#0B1B2B;
+      --muted:#5a6b7f;
+      --shadow: 0 18px 40px rgba(10,35,66,.08);
+      --shadow2: 0 10px 22px rgba(10,35,66,.08);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg, #EAF2FF 0%, var(--bg) 55%, #ffffff 100%);
+    }
+    h1,h2,h3{font-family:Poppins, Inter, sans-serif; margin:0}
+    p{margin:0}
+    a{color:inherit}
+
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    .section{padding:72px 0}
+    .center{text-align:center}
+    .muted{color:var(--muted)}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      background: linear-gradient(180deg, rgba(0,31,63,.96), rgba(0,31,63,.92));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav .inner{
+      height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; color:#fff}
+    .brand-dot{
+      width:28px; height:28px; border-radius:8px;
+      background: radial-gradient(circle at 30% 30%, #7CE7B6, #1db954);
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+    }
+    .navlinks{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+    .navlinks a{
+      color:rgba(255,255,255,.9); text-decoration:none; font-weight:600; font-size:13px;
+      padding:8px 10px; border-radius:10px;
+    }
+    .navlinks a:hover{background:rgba(255,255,255,.08)}
+
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, #36c96d, #1fae57);
+      color:#fff; text-decoration:none;
+      padding:10px 14px; border-radius:12px;
+      font-weight:800; font-size:13px;
+      box-shadow: 0 12px 26px rgba(31,174,87,.25);
+      white-space:nowrap;
+    }
+
+    /* LANGUAGE SWITCH */
+    .lang{
+      position:fixed; right:18px; top:78px; z-index:60;
+      display:flex; gap:8px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(0,31,63,.10);
+      border-radius:999px;
+      padding:8px 10px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow2);
+      font-weight:800;
+    }
+    .lang button{
+      border:0; cursor:pointer;
+      background:transparent;
+      font-size:13px; font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      color:rgba(0,31,63,.85);
+    }
+    .lang button:hover{background:rgba(0,31,63,.06)}
+    .lang button.active{
+      background:rgba(0,31,63,.12);
+      box-shadow: inset 0 0 0 1px rgba(0,31,63,.10);
+    }
+
+    /* HERO */
+    .hero{padding:56px 0 30px;}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:38px;
+      align-items:center;
+      background: rgba(255,255,255,.55);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 26px;
+      padding:46px 44px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .hero h1{font-size:40px; line-height:1.12; letter-spacing:-.3px}
+    .hero p{margin-top:14px; color:var(--muted); font-size:15.5px; line-height:1.55}
+    .hero .primary{
+      margin-top:18px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, #2a6bff, var(--blue));
+      color:#fff; text-decoration:none;
+      padding:12px 18px; border-radius:12px;
+      font-weight:900;
+      box-shadow: 0 14px 30px rgba(31,94,255,.22);
+    }
+    .hero-visual{display:flex; justify-content:center; align-items:center;}
+    .hero-visual img{width:100%; max-width:420px; height:auto; filter: drop-shadow(0 24px 36px rgba(0,0,0,.12));}
+
+    /* SECTION TITLES */
+    .title{font-size:26px; margin-bottom:22px; color: #0b2d57;}
+
+    /* HOW IT WORKS */
+    .how-wrap{
+      background: rgba(255,255,255,.60);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 26px;
+      padding:46px 34px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .steps{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:22px;
+      align-items:start;
+    }
+    .step{
+      text-align:center;
+      padding:18px 16px 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.82);
+      border:1px solid rgba(0,31,63,.08);
+      box-shadow: 0 12px 24px rgba(10,35,66,.05);
+      transition: transform .18s ease, box-shadow .18s ease;
+      min-height: 176px;
+    }
+    .step:hover{transform: translateY(-4px); box-shadow: 0 18px 34px rgba(10,35,66,.08)}
+    .step .num{
+      width:34px; height:34px; border-radius:999px;
+      display:inline-grid; place-items:center;
+      color:#fff; font-weight:900;
+      background: linear-gradient(180deg, #2a6bff, var(--blue));
+      margin-bottom:10px;
+      box-shadow: 0 12px 22px rgba(31,94,255,.18);
+    }
+    .step h3{font-size:13.5px; margin-bottom:10px}
+    .step .icon{height:54px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;}
+    .step .icon img{height:54px; width:auto}
+    .step p{font-size:12.5px; color:var(--muted); line-height:1.35}
+
+    /* DEMO */
+    .demo-card{
+      background: rgba(255,255,255,.60);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 26px;
+      padding:46px 34px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      text-align:center;
+    }
+    .thumb{
+      margin:18px auto 0;
+      width:min(620px, 100%);
+      border-radius:16px;
+      overflow:hidden;
+      position:relative;
+      box-shadow: 0 16px 36px rgba(10,35,66,.10);
+      border:1px solid rgba(0,31,63,.08);
+      background:#fff;
+    }
+    .thumb img{width:100%; height:auto; display:block}
+    .play{position:absolute; inset:0; display:grid; place-items:center;}
+    .play .disabled{
+      border:0; cursor:not-allowed;
+      width:74px; height:74px; border-radius:999px;
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 16px 30px rgba(0,0,0,.18);
+      display:grid; place-items:center;
+    }
+    .play .disabled:before{
+      content:"";
+      display:block;
+      width:0;height:0;
+      border-left:18px solid rgba(0,31,63,.85);
+      border-top:12px solid transparent;
+      border-bottom:12px solid transparent;
+      margin-left:4px;
+    }
+    .smallnote{margin-top:10px; font-size:12.5px; color:var(--muted)}
+    .btn{
+      margin-top:18px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg, #2a6bff, var(--blue));
+      color:#fff; text-decoration:none;
+      padding:12px 18px; border-radius:12px;
+      font-weight:900;
+      box-shadow: 0 14px 30px rgba(31,94,255,.22);
+    }
+
+    /* PRICING */
+    .cards{margin-top:18px; display:grid; grid-template-columns: 1fr 1fr; gap:22px;}
+    .card{
+      background: rgba(255,255,255,.86);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 18px;
+      box-shadow: 0 14px 30px rgba(10,35,66,.07);
+      padding:22px;
+      text-align:center;
+      transition: transform .18s ease, box-shadow .18s ease;
+      position:relative;
+    }
+    .card:hover{transform: translateY(-4px); box-shadow: 0 20px 40px rgba(10,35,66,.10)}
+    .card h3{font-size:18px; margin-bottom:10px}
+    .price{font-family:Poppins, Inter, sans-serif; font-weight:900; font-size:30px; color:#0b2d57}
+    .per{font-size:13px; color:var(--muted); margin-top:6px}
+    .desc{margin-top:14px; font-size:13px; color:var(--muted); line-height:1.45}
+    .premium{border:2px solid rgba(255,193,7,.85)}
+    .badge{
+      position:absolute; right:14px; top:14px;
+      background: rgba(255,193,7,.18);
+      border:1px solid rgba(255,193,7,.5);
+      color:#7a5b00;
+      font-weight:900;
+      padding:6px 10px; border-radius:999px;
+      font-size:12px;
+    }
+
+    /* FAQ */
+    .faq{
+      margin-top:10px;
+      background: rgba(255,255,255,.60);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 26px;
+      padding:22px;
+      box-shadow: var(--shadow2);
+      backdrop-filter: blur(8px);
+    }
+    details{
+      background: rgba(255,255,255,.86);
+      border:1px solid rgba(0,31,63,.08);
+      border-radius: 16px;
+      padding:14px 14px;
+      box-shadow: 0 10px 22px rgba(10,35,66,.05);
+      margin:12px 0;
+    }
+    summary{cursor:pointer; font-weight:900; color:#0b2d57; list-style:none}
+    summary::-webkit-details-marker{display:none}
+    details p{margin-top:10px; color:var(--muted); font-size:13.5px; line-height:1.55}
+
+    /* FINAL CTA */
+    .final{
+      margin-top:26px;
+      background: linear-gradient(180deg, #0b4aa6, #063a86);
+      color:#fff;
+      border-radius: 22px;
+      box-shadow: 0 22px 44px rgba(0,31,63,.22);
+      overflow:hidden;
+    }
+    .final .inner{padding:46px 24px; text-align:center;}
+    .final h2{font-size:22px; margin-bottom:10px}
+    .final p{color:rgba(255,255,255,.85); font-size:13.5px; line-height:1.45}
+    .final .cta2{
+      margin-top:16px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, #36c96d, #1fae57);
+      color:#fff; text-decoration:none;
+      padding:12px 18px; border-radius:12px;
+      font-weight:900;
+      box-shadow: 0 16px 30px rgba(31,174,87,.25);
+    }
+
+    .footer{text-align:center; color:var(--muted); padding:18px 0 38px; font-size:12.5px;}
+
+    @media (max-width: 920px){
+      .navlinks{display:none}
+      .hero-grid{grid-template-columns:1fr; padding:34px 22px}
+      .hero h1{font-size:34px}
+      .steps{grid-template-columns:1fr 1fr}
+      .cards{grid-template-columns:1fr}
+      .lang{top:72px}
+    }
+    @media (max-width: 520px){
+      .section{padding:56px 0}
+      .steps{grid-template-columns:1fr}
+      .hero h1{font-size:30px}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LANGUAGE SWITCH (1 knop, alles wordt vertaald) -->
+  <div class="lang" aria-label="Language switch">
+    <button id="btn-nl" class="active" type="button" onclick="setLanguage('nl')">🇳🇱 NL</button>
+    <button id="btn-en" type="button" onclick="setLanguage('en')">🇬🇧 EN</button>
+  </div>
+
+  <header class="nav">
+    <div class="container inner">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>LeadAssistent</span>
+      </div>
+
+      <nav class="navlinks" aria-label="Main">
+        <a href="#home" data-i18n="nav_home">Home</a>
+        <a href="#works" data-i18n="nav_works">Hoe het werkt</a>
+        <a href="#pricing" data-i18n="nav_pricing">Pakketten</a>
+        <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      </nav>
+
+      <!-- VERVANG # door jouw Calendly link -->
+      <a class="cta" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+    </div>
+  </header>
+
+  <main id="home" class="container hero">
+    <div class="hero-grid">
+      <div>
+        <h1 data-i18n="hero_title">LeadAssistent – Elke lead telt</h1>
+        <p data-i18n="hero_sub">Automatische reacties op Instagram, Funda en WhatsApp zodat je geen enkele lead meer mist.</p>
+        <p><strong data-i18n="hero_benefit">Bespaar tijd en verhoog je omzet direct.</strong></p>
+        <a class="primary" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <img alt="LeadAssistent mockup" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAZABkDASIAAhEBAxEB/8QAHQAAAQUBAQEAAAAAAAAAAAAABQIDBAYHAQgJCP/EAEIQAAEDAgMEBgYHBQYHAAAAAAEAAgMEEQUSITFBBhMiUWEHFDKBkaEVMkJSsdHh8BUjYoLxM2OC0uIVJDRDk7PS/8QAGQEAAwEBAQAAAAAAAAAAAAAAAAECAwQF/8QAKREAAwEBAAICAgIDAQAAAAAAAAECEQMhEjFBBCJRYXGBBRMiMkKh/9oADAMBAAIRAxEAPwD8o4rZf9q9mJt7xqkB0v2c4l6lJXo7m0vW0d0tqvZC3G5m6BqQxV9d0cQpY2x4t8o7b2hQqQ4uHqgqg1oF6mJrZq9o4rZf9q9mJt7xqkB0v2c4l6lJXo7m0vW0d0tqvZC3G5m6BqQxV9d0cQpY2x4t8o7b2hQqQ4uHqgqg1oF6mJrZq9o4rZf9q9mJt7xqkB0v2c4l6lJXo7m0vW0d0tqvZC3G5m6BqQxV9d0cQpY2x4t8o7b2hQqQ4uHqgqg1oF6mJrZq9o4rZf9q9mJt7xqkB0v2c4l6lJXo7m0vW0d0tqvZC3G5m6BqQxV9d0cQpY2x4t8o7b2hQqQ4uHqgqg1oF6mJrZq//Z" />
+      </div>
+    </div>
+  </main>
+
+  <section id="works" class="section">
+    <div class="container how-wrap">
+      <h2 class="title center" data-i18n="works_title">Hoe LeadAssistent werkt</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div class="icon"><img alt="Lead" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect x='8' y='10' width='48' height='44' rx='14' fill='%231F5EFF' opacity='.12'/%3E%3Cpath d='M18 24h28' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M18 34h18' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='45' cy='35' r='6' fill='%2325b45b'/%3E%3C/svg%3E" /></div>
+          <h3 data-i18n="s1_title">Lead stuurt bericht</h3>
+          <p data-i18n="s1_text">Instagram, WhatsApp, Funda</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <div class="icon"><img alt="AI" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect x='10' y='10' width='44' height='44' rx='14' fill='%23FFC107' opacity='.18'/%3E%3Cpath d='M22 40c0-8 20-8 20 0' stroke='%230B2D57' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M26 26h12' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='26' cy='31' r='2.8' fill='%230B2D57'/%3E%3Ccircle cx='38' cy='31' r='2.8' fill='%230B2D57'/%3E%3C/svg%3E" /></div>
+          <h3 data-i18n="s2_title">AI reageert binnen 1 minuut</h3>
+          <p data-i18n="s2_text">Snel & professioneel</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <div class="icon"><img alt="Follow-up" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect x='10' y='10' width='44' height='44' rx='14' fill='%2325b45b' opacity='.14'/%3E%3Cpath d='M22 36h14' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M22 28h20' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M40 42l6-6' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M42 30a8 8 0 11-6 14' stroke='%230B2D57' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" /></div>
+          <h3 data-i18n="s3_title">Automatische follow-up</h3>
+          <p data-i18n="s3_text">Herinnering bij geen reactie</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <div class="icon"><img alt="Calendar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect x='12' y='14' width='40' height='38' rx='12' fill='%231F5EFF' opacity='.12'/%3E%3Cpath d='M20 26h24' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M22 34h10' stroke='%230B2D57' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M36 36l4 4 8-10' stroke='%2325b45b' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" /></div>
+          <h3 data-i18n="s4_title">Direct in agenda</h3>
+          <p data-i18n="s4_text">Afspraak ingepland</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="section">
+    <div class="container demo-card">
+      <h2 class="title" data-i18n="demo_title">Bekijk LeadAssistent in actie</h2>
+      <p class="muted" data-i18n="demo_sub">(Hier komt jouw video — je vroeg om géén filmpje in de code.)</p>
+      <div class="thumb" aria-hidden="true">
+        <img alt="Demo thumbnail" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==" />
+        <div class="play"><div class="disabled" title="Video is uitgeschakeld"></div></div>
+      </div>
+      <div class="smallnote" data-i18n="demo_note">Tip: vervang later de thumbnail of embed je video.</div>
+      <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+    </div>
+  </section>
+
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2 class="title center" data-i18n="pricing_title">Onze pakketten</h2>
+      <div class="cards">
+        <div class="card">
+          <h3 data-i18n="p_basic">Basis</h3>
+          <div class="price" data-i18n="p_basic_setup">€1250</div>
+          <div class="per" data-i18n="p_basic_month">Maandelijks: €297</div>
+          <div class="desc" data-i18n="p_basic_desc">Setup + automatische replies. Jij beheert zelf het systeem.</div>
+          <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+        </div>
+
+        <div class="card premium">
+          <div class="badge" data-i18n="p_popular">Populair</div>
+          <h3 data-i18n="p_premium">Premium</h3>
+          <div class="price" data-i18n="p_premium_setup">€1500</div>
+          <div class="per" data-i18n="p_premium_month">Maandelijks: €397</div>
+          <div class="desc" data-i18n="p_premium_desc">Setup + wij monitoren AI & follow-ups zodat alles strak blijft lopen.</div>
+          <a class="btn" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="title center" data-i18n="faq_title">FAQ</h2>
+      <div class="faq">
+        <details open>
+          <summary data-i18n="q1">Wat is LeadAssistent?</summary>
+          <p data-i18n="a1">LeadAssistent is een AI-systeem dat automatisch reageert op je leads via Instagram, WhatsApp en Funda.</p>
+        </details>
+        <details>
+          <summary data-i18n="q2">Hoe snel reageert het systeem?</summary>
+          <p data-i18n="a2">Meestal binnen 1 minuut. Zo mis je geen warme lead.</p>
+        </details>
+        <details>
+          <summary data-i18n="q3">Heb ik technische kennis nodig?</summary>
+          <p data-i18n="a3">Nee. Wij doen de setup en helpen je met alles.</p>
+        </details>
+        <details>
+          <summary data-i18n="q4">Is er een proefperiode?</summary>
+          <p data-i18n="a4">We kunnen een korte trial/demo setup doen zodat je het eerst kunt zien werken.</p>
+        </details>
+      </div>
+    </div>
+
+    <div class="container final">
+      <div class="inner">
+        <h2 data-i18n="final_title">Start vandaag met geen gemiste leads</h2>
+        <p data-i18n="final_sub">Boek een live demo en zie hoe LeadAssistent je leads direct omzet naar afspraken.</p>
+        <a class="cta2" href="#" target="_blank" rel="noreferrer" data-i18n="cta_demo">Plan je demo</a>
+      </div>
+    </div>
+
+    <div class="footer" data-i18n="footer">Contact: DM Instagram of mail ons.</div>
+  </section>
+
+  <script>
+    // --- Translations (NL/EN) ---
+    const i18n = {
+      nl: {
+        nav_home: "Home",
+        nav_works: "Hoe het werkt",
+        nav_pricing: "Pakketten",
+        nav_faq: "FAQ",
+
+        hero_title: "LeadAssistent – Elke lead telt",
+        hero_sub: "Automatische reacties op Instagram, Funda en WhatsApp zodat je geen enkele lead meer mist.",
+        hero_benefit: "Bespaar tijd en verhoog je omzet direct.",
+
+        works_title: "Hoe LeadAssistent werkt",
+        s1_title: "Lead stuurt bericht",
+        s1_text: "Instagram, WhatsApp, Funda",
+        s2_title: "AI reageert binnen 1 minuut",
+        s2_text: "Snel & professioneel",
+        s3_title: "Automatische follow-up",
+        s3_text: "Herinnering bij geen reactie",
+        s4_title: "Direct in agenda",
+        s4_text: "Afspraak ingepland",
+
+        demo_title: "Bekijk LeadAssistent in actie",
+        demo_sub: "(Hier komt jouw video — je vroeg om géén filmpje in de code.)",
+        demo_note: "Tip: vervang later de thumbnail of embed je video.",
+
+        pricing_title: "Onze pakketten",
+        p_basic: "Basis",
+        p_basic_setup: "€1250",
+        p_basic_month: "Maandelijks: €297",
+        p_basic_desc: "Setup + automatische replies. Jij beheert zelf het systeem.",
+        p_premium: "Premium",
+        p_premium_setup: "€1500",
+        p_premium_month: "Maandelijks: €397",
+        p_premium_desc: "Setup + wij monitoren AI & follow-ups zodat alles strak blijft lopen.",
+        p_popular: "Populair",
+
+        faq_title: "FAQ",
+        q1: "Wat is LeadAssistent?",
+        a1: "LeadAssistent is een AI-systeem dat automatisch reageert op je leads via Instagram, WhatsApp en Funda.",
+        q2: "Hoe snel reageert het systeem?",
+        a2: "Meestal binnen 1 minuut. Zo mis je geen warme lead.",
+        q3: "Heb ik technische kennis nodig?",
+        a3: "Nee. Wij doen de setup en helpen je met alles.",
+        q4: "Is er een proefperiode?",
+        a4: "We kunnen een korte trial/demo setup doen zodat je het eerst kunt zien werken.",
+
+        final_title: "Start vandaag met geen gemiste leads",
+        final_sub: "Boek een live demo en zie hoe LeadAssistent je leads direct omzet naar afspraken.",
+        cta_demo: "Plan je demo",
+        footer: "Contact: DM Instagram of mail ons."
+      },
+      en: {
+        nav_home: "Home",
+        nav_works: "How it works",
+        nav_pricing: "Pricing",
+        nav_faq: "FAQ",
+
+        hero_title: "LeadAssistent – Every Lead Counts",
+        hero_sub: "Automated responses on Instagram, Funda and WhatsApp so you never miss a lead.",
+        hero_benefit: "Save time and increase your revenue instantly.",
+
+        works_title: "How LeadAssistent works",
+        s1_title: "Lead sends a message",
+        s1_text: "Instagram, WhatsApp, Funda",
+        s2_title: "AI replies within 1 minute",
+        s2_text: "Fast & professional",
+        s3_title: "Automatic follow-up",
+        s3_text: "Reminder if no reply",
+        s4_title: "Directly in calendar",
+        s4_text: "Meeting booked",
+
+        demo_title: "See LeadAssistent in action",
+        demo_sub: "(Your video goes here — you asked for no video embed in the code.)",
+        demo_note: "Tip: later replace the thumbnail or embed your video.",
+
+        pricing_title: "Our packages",
+        p_basic: "Basic",
+        p_basic_setup: "€1250",
+        p_basic_month: "Monthly: €297",
+        p_basic_desc: "Setup + automated replies. You manage the system yourself.",
+        p_premium: "Premium",
+        p_premium_setup: "€1500",
+        p_premium_month: "Monthly: €397",
+        p_premium_desc: "Setup + we monitor AI & follow-ups to keep everything running smoothly.",
+        p_popular: "Most popular",
+
+        faq_title: "FAQ",
+        q1: "What is LeadAssistent?",
+        a1: "LeadAssistent is an AI system that automatically replies to leads via Instagram, WhatsApp and Funda.",
+        q2: "How fast does it respond?",
+        a2: "Usually within 1 minute, so you never miss a hot lead.",
+        q3: "Do I need technical knowledge?",
+        a3: "No. We handle the setup and help you with everything.",
+        q4: "Is there a trial period?",
+        a4: "We can set up a short trial/demo so you can see it working first.",
+
+        final_title: "Start today with zero missed leads",
+        final_sub: "Book a live demo and see how LeadAssistent turns leads into meetings automatically.",
+        cta_demo: "Book your demo",
+        footer: "Contact: DM on Instagram or email us."
+      }
+    };
+
+    function applyTranslations(lang){
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(i18n[lang] && i18n[lang][key] != null){
+          el.textContent = i18n[lang][key];
+        }
+      });
+
+      // Update <title> + meta description
+      const title = i18n[lang].hero_title;
+      document.title = title;
+      const meta = document.querySelector('meta[name="description"]');
+      if(meta) meta.setAttribute('content', i18n[lang].hero_sub);
+
+      // Visual active state
+      const nlBtn = document.getElementById('btn-nl');
+      const enBtn = document.getElementById('btn-en');
+      nlBtn.classList.toggle('active', lang === 'nl');
+      enBtn.classList.toggle('active', lang === 'en');
+
+      // Save preference
+      try{ localStorage.setItem('leadassistent_lang', lang); }catch(e){}
+    }
+
+    function setLanguage(lang){
+      applyTranslations(lang);
+    }
+
+    // On load: restore language
+    (function(){
+      let lang = 'nl';
+      try{
+        const saved = localStorage.getItem('leadassistent_lang');
+        if(saved === 'en' || saved === 'nl') lang = saved;
+      }catch(e){}
+      applyTranslations(lang);
+    })();
+  </script>
+</body>
+</html>
